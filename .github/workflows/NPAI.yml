@@ -1,0 +1,27 @@
+name: Build EXE
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt pyinstaller
+
+      - name: Build EXE
+        run: pyinstaller --onefile --noconsole app.py
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Outil-RA-NPAI
+          path: dist/app.exe
